@@ -1,5 +1,6 @@
 var http = require('http');
 const express = require('express');
+var cors = require('cors')
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 
@@ -7,7 +8,7 @@ const app = express();
 const port = 5000;
 app.use(express.json())
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-
+app.use(cors())
 
 
 /**
