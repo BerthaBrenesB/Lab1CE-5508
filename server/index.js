@@ -53,7 +53,7 @@ app.get('/reservations', function(req, res){
 app.post('/spaces', function(req, res){
     let content = JSON.parse(fs.readFileSync('./DB/spaces.json', 'utf8'));
     let body = req.body;
-    body['id'] = uuidv4();
+    body['id'] = Date.now();
     body['state'] = 'free';
     console.log(body);
     content.spaces.push(body);
@@ -67,7 +67,7 @@ app.post('/spaces', function(req, res){
 app.post('/reservations', function(req, res){
     let content = JSON.parse(fs.readFileSync('./DB/spaces.json', 'utf8'))
     let body = req.body;
-    body['id'] = uuidv4();
+    body['id'] = Date.now();
     body['time'] = Date.now();
     let index = content.spaces.findIndex(elem => elem.state === 'free');
     if(index === -1){
