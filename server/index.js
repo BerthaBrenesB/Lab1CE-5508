@@ -104,7 +104,7 @@ app.put('/spaces/:id', function(req, res){
     }else{
         res.status(404).json({
             "method": 'PUT',
-            "message": "There is not space with the id ${id}",
+            "message": `There is not space with the id ${id}`,
             "param": id});
     }
 })
@@ -128,7 +128,7 @@ app.delete('/spaces/:id', function(req, res){
     }else{
         res.status(404).json({
             method: 'DELETE',
-            message: "There is not space with the id ${id}",
+            message: `There is not space with the id ${id}`,
             param: id});
     }
 })
@@ -154,7 +154,7 @@ app.delete('/reservations/:id', function(req, res){
     }else{
         res.status(404).json({
             method: 'DELETE',
-            message: "There is not reservation with the id ${id}",
+            message: `There is not reservation with the id ${id}`,
             param: id});
     }
 })
