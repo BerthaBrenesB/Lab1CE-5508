@@ -7,6 +7,10 @@
         {
             "id": 22,
             "state": "in use"
+        },
+        {
+            "id": "40e920bb-a03a-4b46-8567-7d3296079e79",
+            "state": "free"
         }
     ],
     "reservation": [
@@ -18,11 +22,11 @@
             "space": 1628564163911
         },
         {
-            "carId": "BC5874",
+            "carId": "BC8757",
             "OwnerName": "Alberto Brenes",
             "contact": "87011804",
-            "id": 9,
-            "time": 1628569659252,
+            "id": 25,
+            "time": 1628570364829,
             "space": 22
         }
     ]
