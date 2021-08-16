@@ -2,13 +2,20 @@ var http = require('http');
 const express = require('express');
 var cors = require('cors')
 const fs = require('fs');
+const https = require('https');
 const { v4: uuidv4 } = require('uuid');
-
+const path = require('path');
 const app = express();             
 const port = 5000;
 app.use(express.json())
 app.use(cors())
-
+console.log(__dirname)
+https.createServer({
+    key: fs.readFileSync(path.join(__dirname, '../certificados/key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '../certificados/cert.pem'))
+},app).listen(port, function(){
+	console.log('Servidor https correindo en el puerto 5000');
+});
 
 /**
  * Get method to the spaces 
@@ -164,6 +171,6 @@ app.use('*', (req, res)=>{
     res.json('Route is not valid')
 })
 
-app.listen(port, ()=>{
-    console.log('Node.js web server at port 5000 is running..')
-});
+// app.listen(port, ()=>{
+//     console.log('Node.js web server at port 5000 is running..')
+// });
