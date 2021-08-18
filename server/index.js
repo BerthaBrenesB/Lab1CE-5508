@@ -25,8 +25,22 @@ app.get('/spaces', function (req, res) {
     console.log(req.query);
     console.log(content.spaces);
     console.log(req.query)
-    const filters = req.query;
-    const filteredSpaces = content.spaces.filter(space => {
+    filters = req.query;
+    start_n=0
+    limit_n=0
+    if('start' in filters){
+        console.log("contiene start")
+        start_n = filters['start']
+        delete filters['start']; 
+    }
+
+    if('limit' in filters){
+        console.log("contiene limit")
+        limit_n = filters['limit']
+        delete filters['limit']; 
+    }
+
+    filteredSpaces = content.spaces.filter(space => {
         let isValid = true;
         for (key in filters) {
             console.log(key, space[key], filters[key]);
@@ -34,6 +48,11 @@ app.get('/spaces', function (req, res) {
         }
         return isValid;
     });
+    
+    if (limit_n==0){
+        limit_n=filteredSpaces.length
+    }
+    filteredSpaces=filteredSpaces.splice(start_n,limit_n)
     res.status(200).send(filteredSpaces);
 })
 
@@ -61,8 +80,22 @@ app.get('/reservations', function (req, res) {
     console.log(req.query)
     console.log(content.reservation);
 
-    const filters = req.query;
-    const filteredReservation = content.reservation.filter(reservation => {
+    filters = req.query;
+    start_n=0
+    limit_n=5
+    if('start' in filters){
+        console.log("contiene start")
+        start_n = filters['start']
+        delete filters['start']; 
+    }
+
+    if('limit' in filters){
+        console.log("contiene limit")
+        limit_n = filters['limit']
+        delete filters['limit']; 
+    }
+    
+     filteredReservation = content.reservation.filter(reservation => {
         let isValid = true;
         for (key in filters) {
             console.log(key, reservation[key], filters[key]);
@@ -70,6 +103,12 @@ app.get('/reservations', function (req, res) {
         }
         return isValid;
     });
+
+    if (limit_n==0){
+        limit_n=filteredReservation.length
+    }
+    filteredReservation=filteredReservation.splice(start_n,limit_n)
+
     res.status(200).send(filteredReservation);
 
     // res.status(200).send(content.reservation);
