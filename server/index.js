@@ -5,10 +5,55 @@ const fs = require('fs');
 const https = require('https');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
+
+var swaggerJsdoc = require("swagger-jsdoc"), swaggerUi = require("swagger-ui-express");
+
+const options = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "REST API simple con Swagger",
+            version: "0.1.0",
+            description:
+                "Aplicacion simple desarrollada con Express y documentada con Swagger",
+                            // license: {
+            //     name: "MIT",
+            //     url: "https://spdx.org/licenses/MIT.html",
+            // },
+            contact: {
+                name: "Bertha y Gustavo",
+                url: "https://ejemplo.com",
+                email: "ejemplo@email.com",
+            },
+        },
+        servers: [
+            {
+                url: "https://localhost:5000/spaces",
+            },
+            {
+                url: "https://localhost:5000/reservations",
+            },
+        ],
+    },
+    apis: ["./index.js"],
+};
+
+const specs = swaggerJsdoc(options);
+
+
+
+
 const app = express();
 const port = 5000;
 app.use(express.json())
 app.use(cors())
+app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(specs)
+);
+
+
 console.log(__dirname)
 https.createServer({
     key: fs.readFileSync(path.join(__dirname, '../certificados/key.pem')),
@@ -16,6 +61,11 @@ https.createServer({
 }, app).listen(port, function () {
     console.log('Servidor https correindo en el puerto 5000');
 });
+
+
+
+
+
 
 /**
  * Get method to the spaces 
@@ -26,18 +76,18 @@ app.get('/spaces', function (req, res) {
     console.log(content.spaces);
     console.log(req.query)
     filters = req.query;
-    start_n=0
-    limit_n=0
-    if('start' in filters){
+    start_n = 0
+    limit_n = 0
+    if ('start' in filters) {
         console.log("contiene start")
         start_n = filters['start']
-        delete filters['start']; 
+        delete filters['start'];
     }
 
-    if('limit' in filters){
+    if ('limit' in filters) {
         console.log("contiene limit")
         limit_n = filters['limit']
-        delete filters['limit']; 
+        delete filters['limit'];
     }
 
     filteredSpaces = content.spaces.filter(space => {
@@ -48,11 +98,11 @@ app.get('/spaces', function (req, res) {
         }
         return isValid;
     });
-    
-    if (limit_n==0){
-        limit_n=filteredSpaces.length
+
+    if (limit_n == 0) {
+        limit_n = filteredSpaces.length
     }
-    filteredSpaces=filteredSpaces.splice(start_n,limit_n)
+    filteredSpaces = filteredSpaces.splice(start_n, limit_n)
     res.status(200).send(filteredSpaces);
 })
 
@@ -81,21 +131,21 @@ app.get('/reservations', function (req, res) {
     console.log(content.reservation);
 
     filters = req.query;
-    start_n=0
-    limit_n=5
-    if('start' in filters){
+    start_n = 0
+    limit_n = 5
+    if ('start' in filters) {
         console.log("contiene start")
         start_n = filters['start']
-        delete filters['start']; 
+        delete filters['start'];
     }
 
-    if('limit' in filters){
+    if ('limit' in filters) {
         console.log("contiene limit")
         limit_n = filters['limit']
-        delete filters['limit']; 
+        delete filters['limit'];
     }
-    
-     filteredReservation = content.reservation.filter(reservation => {
+
+    filteredReservation = content.reservation.filter(reservation => {
         let isValid = true;
         for (key in filters) {
             console.log(key, reservation[key], filters[key]);
@@ -104,10 +154,10 @@ app.get('/reservations', function (req, res) {
         return isValid;
     });
 
-    if (limit_n==0){
-        limit_n=filteredReservation.length
+    if (limit_n == 0) {
+        limit_n = filteredReservation.length
     }
-    filteredReservation=filteredReservation.splice(start_n,limit_n)
+    filteredReservation = filteredReservation.splice(start_n, limit_n)
 
     res.status(200).send(filteredReservation);
 
