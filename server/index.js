@@ -6,40 +6,13 @@ const https = require('https');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
-var swaggerJsdoc = require("swagger-jsdoc"), swaggerUi = require("swagger-ui-express");
+var swaggerUi = require("swagger-ui-express");
 
-const options = {
-    definition: {
-        openapi: "3.0.0",
-        info: {
-            title: "REST API simple con Swagger",
-            version: "0.1.0",
-            description:
-                "Aplicacion simple desarrollada con Express y documentada con Swagger",
-                            // license: {
-            //     name: "MIT",
-            //     url: "https://spdx.org/licenses/MIT.html",
-            // },
-            contact: {
-                name: "Bertha y Gustavo",
-                url: "https://ejemplo.com",
-                email: "ejemplo@email.com",
-            },
-        },
-        servers: [
-            {
-                url: "https://localhost:5000/spaces",
-            },
-            {
-                url: "https://localhost:5000/reservations",
-            },
-        ],
-    },
-    apis: ["./index.js"],
-};
 
-const specs = swaggerJsdoc(options);
 
+
+// const specs = swaggerJsdoc(options);
+const specs = JSON.parse(fs.readFileSync('./swagger.json', 'utf8'));
 
 
 
